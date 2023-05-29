@@ -206,40 +206,40 @@ function App() {
   function checkValidPlacement(index) {
     //if index is 0
     if(index-1 === 0 && (randomNumber < data[index]?.value || data[index]?.value === 0)) {
-      for(let i = index; i < 20; i++) {
-        if(!checkValidPlacement(i)) {
-          return false
-        }
-      }
+      // for(let i = index; i < 20; i++) {
+      //   if(!checkValidPlacement(i)) {
+      //     return false
+      //   }
+      // }
       return true
     }
     //if index is 19
     if(index-1 === 19 && randomNumber > data[index-2]?.value) {
-      for(let i = index; i < 20; i++) {
-        if(!checkValidPlacement(i)) {
-          return false
-        }
-      }
+      // for(let i = index; i < 20; i++) {
+      //   if(!checkValidPlacement(i)) {
+      //     return false
+      //   }
+      // }
       return true
     }
 
     // return true if random number is greater than previous index and less than next index
     if(data[index-2]?.value < randomNumber && randomNumber < data[index]?.value) {
-      for(let i = index; i < 20; i++) {
-        if(!checkValidPlacement(i)) {
-          return false
-        }
-      }
+      // for(let i = index; i < 20; i++) {
+      //   if(!checkValidPlacement(i)) {
+      //     return false
+      //   }
+      // }
       return true
     }
 
     // return true if random number is greater than previous index and next index is 0
     if(data[index-2]?.value < randomNumber && data[index]?.value === 0) {
-      for(let i = index; i < 20; i++) {
-        if(!checkValidPlacement(i)) {
-          return false
-        }
-      }
+      // for(let i = index; i < 20; i++) {
+      //   if(!checkValidPlacement(i)) {
+      //     return false
+      //   }
+      // }
       return true
     }
     
@@ -317,7 +317,15 @@ function App() {
         </TableBuilderColumn>
         <TableBuilderColumn header="Number">
             {(row) => 
-            <Button kind={KIND.tertiary} onClick={() => setRow(row.space)}>
+            <Button kind={KIND.tertiary} onClick={() => setRow(row.space)} overrides={row.value !== 0 ? {
+              BaseButton: {
+                style: ({ $theme }) => ({
+                  outline: `${$theme.colors.positive200} solid`,
+                  backgroundColor: $theme.colors.positive200
+                })
+              }
+            } : {}}
+      >
                 {row.value}
             </Button>}
         </TableBuilderColumn>
