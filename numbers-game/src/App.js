@@ -11,6 +11,13 @@ import {
   TableBuilder,
   TableBuilderColumn,
 } from 'baseui/table-semantic';
+import {
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  ModalButton,
+} from 'baseui/modal';
 
 const engine = new Styletron();
 const Centered = styled('div', {
@@ -206,40 +213,58 @@ function App() {
   function checkValidPlacement(index) {
     //if index is 0
     if(index-1 === 0 && (randomNumber < data[index]?.value || data[index]?.value === 0)) {
-      // for(let i = index; i < 20; i++) {
-      //   if(!checkValidPlacement(i)) {
-      //     return false
-      //   }
-      // }
+      for(let i = index; i < 20; i++) {
+        if(data[i]?.value !== 0 && data[i]?.value < randomNumber) {
+          console.log('returning false here 1');
+          return false
+        }
+      }
       return true
     }
     //if index is 19
     if(index-1 === 19 && randomNumber > data[index-2]?.value) {
-      // for(let i = index; i < 20; i++) {
-      //   if(!checkValidPlacement(i)) {
-      //     return false
-      //   }
-      // }
+      for(let x = index-2; x >= 0; x--) {
+        if(data[x]?.value !== 0 && data[x]?.value > randomNumber) {
+          console.log('returning false here 2');
+          return false;
+        }
+      }
       return true
     }
 
     // return true if random number is greater than previous index and less than next index
     if(data[index-2]?.value < randomNumber && randomNumber < data[index]?.value) {
-      // for(let i = index; i < 20; i++) {
-      //   if(!checkValidPlacement(i)) {
-      //     return false
-      //   }
-      // }
+      for(let i = index; i < 20; i++) {
+        if(data[i]?.value !== 0 && data[i]?.value < randomNumber) {
+          console.log('returning false here 3');
+          return false
+        }
+      }
+      for(let x = index-2; x >= 0; x--) {
+        if(data[x]?.value !== 0 && data[x]?.value > randomNumber) {
+          console.log('returning false here 4');
+          console.log('data[x]?.value', data[x]?.value)
+          console.log('randomNumber', randomNumber);
+          return false;
+        }
+      }
       return true
     }
 
     // return true if random number is greater than previous index and next index is 0
     if(data[index-2]?.value < randomNumber && data[index]?.value === 0) {
-      // for(let i = index; i < 20; i++) {
-      //   if(!checkValidPlacement(i)) {
-      //     return false
-      //   }
-      // }
+      for(let i = index; i < 20; i++) {
+        if(data[i]?.value !== 0 && data[i]?.value < randomNumber) {
+          console.log('returning false here 5');
+          return false
+        }
+      }
+      for(let x = index-2; x >= 0; x--) {
+        if(data[x]?.value !== 0 && data[x]?.value > randomNumber) {
+          console.log('returning false here 6');
+          return false;
+        }
+      }
       return true
     }
     
@@ -247,11 +272,14 @@ function App() {
   }
 
   function checkGameOver() {
+    console.log('checking to see if game over');
     for(const row in data) {
       if(checkValidPlacement(row.space)) {
+        console.log('game not over valid move on,', row.space);
         return false;
         }
     }
+    console.log('game is over');
     return true;
   }
 
